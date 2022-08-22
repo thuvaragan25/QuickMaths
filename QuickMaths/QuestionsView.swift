@@ -10,17 +10,22 @@ struct QuestionsView: View {
     @State private var question = ""
     @State private var answerAsInteger = 0
     @State private var answer = ""
-    @State var timeSpent = 0
+    @State private var timeSpent = 0
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack {
             if questionCounter < 16 {
-                Text("Time: \(timeSpent) seconds")
-                    .onReceive(timer){_ in
-                        timeSpent += 1
-                    }
+                HStack{
+                    Image(systemName: "stopwatch")
+                        .font(.title)
+                    Text("\(timeSpent) seconds")
+                        .onReceive(timer){_ in
+                            timeSpent += 1
+                        }
+                }
+                .padding(3)
                 Text(question)
                     .font(.largeTitle)
                     .bold()
@@ -44,6 +49,12 @@ struct QuestionsView: View {
                     RoundedRectangle(cornerRadius: 40)
                         .stroke(Color.blue, lineWidth: 4)
                 )
+                
+                Text("**Question:** \(questionCounter)")
+                    .fontWeight(.regular)
+                    .multilineTextAlignment(.leading)
+                    .padding()
+                     
             }else{
                 Text("Score: \(score)/15")
                     .font(.headline)
